@@ -32,11 +32,35 @@ RUN apt-get update && apt-get install -y software-properties-common && \
     megatools mediainfo && \
     # clean up the container "layer", after we are done
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    
+#gdrive setupz
+RUN wget -P /tmp https://dl.google.com/go/go1.17.1.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf /tmp/go1.17.1.linux-amd64.tar.gz
+RUN rm /tmp/go1.17.1.linux-amd64.tar.gz
+ENV GOPATH /go
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
+RUN go get github.com/prasmussen/gdrive
+RUN echo "Z2RyaXZlIHVwbG9hZCAiJDEiIHwgZ3JlcCAtb1AgJyg/PD1VcGxvYWRlZC4pW2EtekEtWl8wLTktXSsnID4gZztnZHJpdmUgc2hhcmUgJChjYXQgZykgPi9kZXYvbnVsbCAyPiYxO2VjaG8gImh0dHBzOi8vZHJpdmUuZ29vZ2xlLmNvbS9maWxlL2QvJChjYXQgZykiCg==" | base64 -d > /usr/local/bin/gup && chmod +x /usr/local/bin/gup
 
+
+# add ffmpeg
 RUN wget https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz && \
     tar xvf ffmpeg*.xz && \
     cd ffmpeg-*-static && \
     mv "${PWD}/ffmpeg" "${PWD}/ffprobe" /usr/local/bin/
+    
+#Link Parsers By yusuf
+RUN echo "KGdkcml2ZSB1cGxvYWQgIiQxIikgMj4gL2Rldi9udWxsIHwgZ3JlcCAtb1AgJyg/PD1VcGxvYWRlZC4pW2EtekEtWl8wLTktXSsnID4gZztnZHJpdmUgc2hhcmUgJChjYXQgZykgPi9kZXYvbnVsbCAyPiYxO2VjaG8gImh0dHBzOi8vZHJpdmUuZ29vZ2xlLmNvbS9maWxlL2QvJChjYXQgZykiCg==" | base64 -d > /usr/local/bin/gup && \
+chmod +x /usr/local/bin/gup && \
+wget -O /usr/bin/gdtot "https://tgstreamerbot.akuotoko.repl.co/1673806755639796/gdtot" && \
+chmod +x /usr/bin/gdtot && \
+wget -O /usr/bin/gp "https://tgstreamerbot.akuotoko.repl.co/1660131579769332/gp" && \
+chmod +x /usr/bin/gp
+
+# Install Extras
+RUN pip install transfersh-cli
+RUN pip install vcsi
 
 ENV LANG C.UTF-8
 
