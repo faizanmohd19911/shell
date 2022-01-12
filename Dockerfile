@@ -33,13 +33,6 @@ RUN apt-get update && apt-get install -y software-properties-common && \
     # clean up the container "layer", after we are done
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
  
-# add spek
-RUN apt-get update 
-RUN wget https://github.com/withmorten/spek-alternative/archive/refs/tags/0.8.2.3.tar.gz 
-RUN tar -xvf spek-alternative-0.8.2.3.tar.gz 
-RUN cd spek-alternative-0.8.2.3
-RUN ./configure
-RUN make install
 
 #gdrive setupz
 RUN wget -P /tmp https://dl.google.com/go/go1.17.1.linux-amd64.tar.gz
