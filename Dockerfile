@@ -32,7 +32,13 @@ RUN apt-get update && apt-get install -y software-properties-common && \
     megatools mediainfo && \
     # clean up the container "layer", after we are done
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
-    
+ 
+# add spek
+RUN apt-get update && \
+curl http://yu.archive.ubuntu.com/ubuntu/pool/universe/s/spek/spek_0.8.2-4build1_amd64.deb --output spek.deb && \
+chmod 777 spek.deb && \
+apt install ./spek.deb
+
 #gdrive setupz
 RUN wget -P /tmp https://dl.google.com/go/go1.17.1.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf /tmp/go1.17.1.linux-amd64.tar.gz
